@@ -1,0 +1,29 @@
+From 4aa71d8ac09afca11336748f4c83b4431207ea86 Mon Sep 17 00:00:00 2001
+From: unknown <unknown>
+Date: Thu, 2 Jan 2014 13:13:18 +0000
+Subject: Adjust default recursive make targets
+
+This has been in the groff packaging since records began, and the reason
+for it is unclear.  Needs investigation.
+
+Forwarded: no
+Last-Update: 2013-01-07
+
+Patch-Name: make-targets.patch
+---
+ Makefile.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile.in b/Makefile.in
+index bc156ce3..d29e8562 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -793,7 +793,7 @@ ENVSETUP=\
+ 	fi
+ 
+ do=all
+-dodirs=$(ALLDIRS) $(OTHERDIRS) dot
++dodirs=$(DISTDIRS) 
+ # Default target for subdir_Makefile
+ subdir=src/roff/troff
+ 

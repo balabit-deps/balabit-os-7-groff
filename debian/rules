@@ -1,0 +1,148 @@
+#! /usr/bin/make -f
+%:
+	dh $@ --builddirectory=debian/build --with=autoreconf --parallel
+
+export DH_OPTIONS
+
+export LC_ALL := C.UTF-8
+
+export DEB_BUILD_MAINT_OPTIONS := hardening=+all
+export DEB_CPPFLAGS_MAINT_APPEND := -D_FILE_OFFSET_BITS=64
+export DEB_CFLAGS_MAINT_APPEND := -Wall
+export DEB_CXXFLAGS_MAINT_APPEND := -Wall -std=gnu++98
+
+# Based loosely on /usr/share/dpkg/buildflags.mk, but we need to do this
+# ourselves in order to get flags for both build and host architectures.
+# Compare https://bugs.debian.org/644412.
+
+export_envvar := \
+	DEB_BUILD_MAINT_OPTIONS="$(DEB_BUILD_MAINT_OPTIONS)" \
+	DEB_CPPFLAGS_MAINT_APPEND="$(DEB_CPPFLAGS_MAINT_APPEND)" \
+	DEB_CFLAGS_MAINT_APPEND="$(DEB_CFLAGS_MAINT_APPEND)" \
+	DEB_CXXFLAGS_MAINT_APPEND="$(DEB_CXXFLAGS_MAINT_APPEND)"
+
+buildflags := $(shell $(export_envvar) dpkg-buildflags --export=cmdline)
+buildflags_native := $(shell \
+	DEB_HOST_ARCH="$(DEB_BUILD_ARCH)" $(export_envvar) \
+	dpkg-buildflags --export=cmdline)
+
+# From Makefile.in
+version  = $(shell cat VERSION)
+revision = $(shell sed -e 's/^0$$//' -e 's/^[1-9].*$$/.&/' REVISION)
+export UPSTREAM_VERSION = $(version)$(revision)
+datadir  = usr/share/groff/$(UPSTREAM_VERSION)
+
+gbtmp = debian/groff-base
+gtmp  = debian/groff
+
+DEB_BUILD_GNU_TYPE := $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+DEB_HOST_GNU_TYPE  := $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+
+confflags_gnulib = --build=$(DEB_BUILD_GNU_TYPE)
+ifneq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
+  confflags_gnulib += --host=$(DEB_HOST_GNU_TYPE)
+endif
+
+override_dh_autoreconf:
+	dh_autoreconf autoreconf -- -f -i -I m4
+
+override_dh_auto_configure:
+	-rm -f config.log config.cache
+	$(buildflags) YACC='bison -y' PSPRINT=lpr PAGE=A4 \
+		dh_auto_configure -- \
+			--libdir=\$${prefix}/lib \
+			--with-appresdir=/etc/X11/app-defaults
+	mkdir -p debian/build/src/libs/gnulib
+	cd debian/build/src/libs/gnulib && \
+		$(buildflags) \
+		$(CURDIR)/src/libs/gnulib/configure $(confflags_gnulib)
+ifneq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
+	$(buildflags_native) YACC='bison -y' PSPRINT=lpr PAGE=A4 \
+		DEB_HOST_GNU_TYPE=$(DEB_BUILD_GNU_TYPE) \
+		env -u CONFIG_SITE \
+		dh_auto_configure --builddirectory=debian/build-native -- \
+			--libdir=\$${prefix}/lib \
+			--with-appresdir=/etc/X11/app-defaults
+endif
+
+ifeq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
+  cross :=
+else
+  native_tmp := $(CURDIR)/debian/build-native
+  groff_bin_dirs := \
+	$(native_tmp)/src/roff/groff \
+	$(native_tmp)/src/roff/troff \
+	$(native_tmp)/src/preproc/pic \
+	$(native_tmp)/src/preproc/eqn \
+	$(native_tmp)/src/preproc/tbl \
+	$(native_tmp)/src/preproc/grn \
+	$(native_tmp)/src/preproc/refer \
+	$(native_tmp)/src/preproc/soelim \
+	$(native_tmp)/src/preproc/html \
+	$(native_tmp)/src/devices/grops \
+	$(native_tmp)/src/devices/grodvi \
+	$(native_tmp)/src/devices/grotty \
+	$(native_tmp)/src/devices/grolj4 \
+	$(native_tmp)/src/devices/grolbp \
+	$(native_tmp)/src/devices/grohtml
+  empty :=
+  space := $(empty) $(empty)
+  cross := \
+	TROFFBIN=$(native_tmp)/src/roff/troff/troff \
+	GROFFBIN=$(native_tmp)/src/roff/groff/groff \
+	GROFF_BIN_DIR=$(native_tmp)/src/roff/groff \
+	GROFF_BIN_PATH=$(subst $(space),:,$(groff_bin_dirs))
+endif
+
+override_dh_auto_build:
+ifneq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
+	$(MAKE) -C debian/build-native \
+		extratmacdirs=/usr/share/groff/tmac \
+		docdir=\$${prefix}/share/doc/groff-base
+endif
+	$(MAKE) -C debian/build \
+		extratmacdirs=/usr/share/groff/tmac \
+		docdir=\$${prefix}/share/doc/groff-base $(cross)
+	GROFF_NO_SGR=1 $(MAKE) -C debian/build/doc $(cross) \
+		meintro.txt meref.txt pic.txt
+
+override_dh_auto_install:
+	dh_auto_install -- \
+		docdir=\$${prefix}/share/doc/groff-base \
+		INSTALL_INFO=:
+
+override_dh_install:
+	dh_install --fail-missing
+	# Debian additions to *.local
+	cat debian/mandoc.local >> $(gbtmp)/etc/groff/man.local
+	cat debian/mandoc.local >> $(gbtmp)/etc/groff/mdoc.local
+	# Scripts should be executable
+	chmod +x $(gbtmp)/$(datadir)/font/devps/generate/afmname \
+		 $(gbtmp)/$(datadir)/font/devps/generate/symbol.sed
+	chmod +x $(gtmp)/$(datadir)/font/devdvi/generate/CompileFonts \
+		 $(gtmp)/$(datadir)/font/devlj4/generate/special.awk
+
+override_dh_installdocs:
+	dh_installdocs -pgroff-base
+	dh_installdocs -pgroff -Xcopyright --link-doc=groff-base
+
+override_dh_installchangelogs:
+	dh_installchangelogs -pgroff-base
+
+override_dh_compress:
+	dh_compress -X.mom
+
+override_dh_fixperms:
+	dh_fixperms
+	# Fix a few incorrect permissions set by upstream Makefiles.
+	chmod +x $(gtmp)/$(datadir)/font/devpdf/util/BuildFoundries
+	chmod -x \
+		$(gtmp)/usr/lib/groff/glilypond/args.pl \
+		$(gtmp)/usr/lib/groff/glilypond/oop_fh.pl \
+		$(gtmp)/usr/lib/groff/glilypond/subs.pl \
+		$(gtmp)/usr/lib/groff/groff_opts_no_arg.txt \
+		$(gtmp)/usr/lib/groff/groff_opts_with_arg.txt
+
+override_dh_builddeb:
+	dh_builddeb -pgroff-base -- -Zgzip
+	dh_builddeb -Ngroff-base -- -Zxz

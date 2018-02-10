@@ -1,0 +1,7 @@
+# These files are dual-licensed under GPLv3+.  See debian/copyright.
+groff source: license-problem-gfdl-invariants doc/groff.info*
+groff source: license-problem-gfdl-invariants doc/groff.texinfo*
+
+groff source: dh-exec-subst-unknown-variable debian/groff-base.dirs UPSTREAM_VERSION
+groff source: dh-exec-subst-unknown-variable debian/groff-base.install UPSTREAM_VERSION
+groff source: dh-exec-subst-unknown-variable debian/groff.install UPSTREAM_VERSION

@@ -1,0 +1,112 @@
+From 8c1ef53e5a099ec2ba13e598413f0b10463b53f0 Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@debian.org>
+Date: Fri, 6 Nov 2015 11:53:02 +0000
+Subject: Sort Perl hash keys
+
+Hash iteration order may differ between runs, which makes builds harder
+to reproduce.  Sort hash keys in gropdf and afmtodit output to avoid
+this.
+
+Forwarded: no
+Last-Update: 2015-11-06
+
+Patch-Name: sort-perl-hash-keys.patch
+---
+ src/devices/gropdf/gropdf.pl   | 10 +++++-----
+ src/utils/afmtodit/afmtodit.pl | 12 ++++++------
+ 2 files changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/src/devices/gropdf/gropdf.pl b/src/devices/gropdf/gropdf.pl
+index 62a74291..6c1970be 100644
+--- a/src/devices/gropdf/gropdf.pl
++++ b/src/devices/gropdf/gropdf.pl
+@@ -316,7 +316,7 @@ my $info=BuildObj(++$objct,\%info);
+ 
+ PutObj($objct);
+ 
+-foreach my $fontno (keys %fontlst)
++foreach my $fontno (sort keys %fontlst)
+ {
+     my $o=$fontlst{$fontno}->{FNT};
+     my $p=GetObj($fontlst{$fontno}->{OBJ});
+@@ -717,7 +717,7 @@ sub do_x
+ 		    my @xwds=split(' ',"<< $1 >>");
+ 		    my $docinfo=ParsePDFValue(\@xwds);
+ 
+-		    foreach my $k (keys %{$docinfo})
++		    foreach my $k (sort keys %{$docinfo})
+ 		    {
+ 			$info{$k}=$docinfo->{$k} if $k ne 'Producer';
+ 		    }
+@@ -727,7 +727,7 @@ sub do_x
+ 		    my @xwds=split(' ',"<< $1 >>");
+ 		    my $docview=ParsePDFValue(\@xwds);
+ 
+-		    foreach my $k (keys %{$docview})
++		    foreach my $k (sort keys %{$docview})
+ 		    {
+ 			$cat->{$k}=$docview->{$k} if !exists($cat->{$k});
+ 		    }
+@@ -1507,7 +1507,7 @@ sub MapInsHash
+     my $val=shift;
+ 
+ 
+-    foreach my $k (keys(%{$val}))
++    foreach my $k (sort keys(%{$val}))
+     {
+ 	MapInsValue($pdf,$o,$k,$insmap,$parent,$val->{$k}) if $k ne 'Contents';
+     }
+@@ -3255,7 +3255,7 @@ sub do_N
+ 	my $fnt=$fontlst{$cft}->{FNT};
+ 	my $chnm='';
+ 
+-	foreach my $c (keys %{$fnt->{GNM}})
++	foreach my $c (sort keys %{$fnt->{GNM}})
+ 	{
+ 	    $chnm=$c,last if $fnt->{GNM}->{$c} == $par;
+ 	}
+diff --git a/src/utils/afmtodit/afmtodit.pl b/src/utils/afmtodit/afmtodit.pl
+index 4f2ce833..e3bbc0b0 100644
+--- a/src/utils/afmtodit/afmtodit.pl
++++ b/src/utils/afmtodit/afmtodit.pl
+@@ -164,8 +164,8 @@ while (<AFM>) {
+ 		$depth{$n} = -$lly;
+ 		$left_side_bearing{$n} = -$llx;
+ 		$right_side_bearing{$n} = $urx - $w;
+-#		while ((my $lig, my $glyph2) = each %ligs) {
+-#		    $ligatures{$lig} = $n . " " . $glyph2;
++#		foreach my $lig (sort keys %ligs) {
++#		    $ligatures{$lig} = $n . " " . $ligs{$lig};
+ #		}
+ 	    }
+ 	}
+@@ -267,7 +267,7 @@ $italic_angle = $opt_a if $opt_a;
+ if (!$opt_x) {
+     my %mapped;
+     my $i = ($#encoding > 256) ? ($#encoding + 1) : 256;
+-    while (my $ch = each %width) {
++    foreach my $ch (sort keys %width) {
+ 	# add unencoded characters
+ 	if (!$in_encoding{$ch}) {
+ 	    $encoding[$i] = $ch;
+@@ -407,9 +407,9 @@ my %default_ligatures = (
+   "ffl", "ff l",
+ );
+ 
+-while (my ($lig, $components) = each %default_ligatures) {
++foreach my $lig (sort keys %default_ligatures) {
+     if (defined $width{$lig} && !defined $ligatures{$lig}) {
+-	$ligatures{$lig} = $components;
++	$ligatures{$lig} = $default_ligatures{$lig};
+     }
+ }
+ 
+@@ -456,7 +456,7 @@ if ($opt_e) {
+ 
+ if (!$opt_n && %ligatures) {
+     print("ligatures");
+-    while (my $lig = each %ligatures) {
++    foreach my $lig (sort keys %ligatures) {
+ 	print(" $lig");
+     }
+     print(" 0\n");

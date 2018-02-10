@@ -1,0 +1,41 @@
+From 945777b3377ba60851cb71293925b4ce0f12039c Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@debian.org>
+Date: Thu, 2 Jan 2014 13:13:17 +0000
+Subject: Adjust documentation references to account for compression
+
+Bug-Debian: http://bugs.debian.org/498356
+Forwarded: not-needed
+Last-Update: 2010-03-01
+
+Patch-Name: doc-gzipped.patch
+---
+ contrib/pdfmark/pdfroff.man | 2 +-
+ src/preproc/pic/pic.man     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/contrib/pdfmark/pdfroff.man b/contrib/pdfmark/pdfroff.man
+index 60a75a22..ad871595 100644
+--- a/contrib/pdfmark/pdfroff.man
++++ b/contrib/pdfmark/pdfroff.man
+@@ -839,7 +839,7 @@ Detailed documentation on the use of these packages may be found,
+ in PDF format, in the reference guide
+ .BR "\*(lqPortable Document Format Publishing with GNU Troff\*(rq" ,
+ included in the installed documentation set as
+-.BR \%@PDFDOCDIR@/pdfmark.pdf .
++.BR \%@PDFDOCDIR@/pdfmark.pdf.gz .
+ .
+ .
+ .\" --------------------------------------------------------------------
+diff --git a/src/preproc/pic/pic.man b/src/preproc/pic/pic.man
+index 04ea3e0b..6dd8654b 100644
+--- a/src/preproc/pic/pic.man
++++ b/src/preproc/pic/pic.man
+@@ -261,7 +261,7 @@ A complete documentation is available in the file
+ .
+ .LP
+ .RS
+-.B @DOCDIR@/pic.ms
++.B @DOCDIR@/pic.ms.gz
+ .RE
+ .
+ .

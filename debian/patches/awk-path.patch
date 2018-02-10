@@ -1,0 +1,25 @@
+From 5e6199cf0bc24dc3c7d792f8fbd62e154fb3b81a Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@debian.org>
+Date: Thu, 2 Jan 2014 13:13:14 +0000
+Subject: Adjust #! line of font/devlj4/generate/special.awk
+
+awk is in /usr/bin/awk on Debian, not /bin/awk.
+
+Forwarded: no
+Last-Update: 2010-03-01
+
+Patch-Name: awk-path.patch
+---
+ font/devlj4/generate/special.awk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/font/devlj4/generate/special.awk b/font/devlj4/generate/special.awk
+index 26e8b92d..318c53f0 100644
+--- a/font/devlj4/generate/special.awk
++++ b/font/devlj4/generate/special.awk
+@@ -1,4 +1,4 @@
+-#! /bin/awk -f
++#! /usr/bin/awk -f
+ 
+ # Correct Intellifont-based height metrics for several glyphs in
+ # special font for TrueType CG Times (LaserJet 4000 and later).

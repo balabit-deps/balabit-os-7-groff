@@ -1,0 +1,91 @@
+From 6cbfa7af9000a26b4f93fcdf1c8f9e349bff53c5 Mon Sep 17 00:00:00 2001
+From: Darcy SHEN <sadhen1992@gmail.com>
+Date: Thu, 30 Apr 2015 09:42:22 +0200
+Subject: Fix Savannah bug #44941.
+
+* tmac/zh.tmac: New file to support basic Chinese (both simplified
+and traditional).
+* tmac/Makefile.sub (NORMALFILES): Add `zh.tmac'.
+
+Origin: upstream, http://git.savannah.gnu.org/cgit/groff.git/commit/?id=4fdc2860974ace28eef4d5a7468a8959642a039b
+Origin: upstream, http://git.savannah.gnu.org/cgit/groff.git/commit/?id=ab3cf0445c3b7474680ed6451e0ec36ba2febe3c
+Origin: backport, http://git.savannah.gnu.org/cgit/groff.git/commit/?id=f2825a4eb2810c0feec4f8e9c7f8910e26198983
+Bug: https://savannah.gnu.org/bugs/?44941
+Bug-Debian: https://bugs.debian.org/848030
+Last-Update: 2016-12-13
+
+Patch-Name: zh-tmac.patch
+---
+ tmac/Makefile.sub |  3 ++-
+ tmac/zh.tmac      | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 50 insertions(+), 1 deletion(-)
+ create mode 100644 tmac/zh.tmac
+
+diff --git a/tmac/Makefile.sub b/tmac/Makefile.sub
+index 15062325..f031adf6 100644
+--- a/tmac/Makefile.sub
++++ b/tmac/Makefile.sub
+@@ -63,7 +63,8 @@ NORMALFILES=\
+   sv.tmac hyphen.sv \
+   de.tmac den.tmac hyphen.det hyphen.den hyphenex.det \
+   cs.tmac hyphen.cs hyphenex.cs \
+-  ja.tmac
++  ja.tmac \
++  zh.tmac
+ 
+ # These files are handled specially during installation and deinstallation.
+ SPECIALFILES=an.tmac s.tmac www.tmac
+diff --git a/tmac/zh.tmac b/tmac/zh.tmac
+new file mode 100644
+index 00000000..e66186f7
+--- /dev/null
++++ b/tmac/zh.tmac
+@@ -0,0 +1,48 @@
++.\" -*- mode: nroff; coding: utf-8; -*-
++.\"
++.\" Chinese localization for groff
++.\"
++.\" Copyright (C) 2015  Free Software Foundation, Inc.
++.\"   Written by Darcy SHEN <sadhen1992@gmail.com>
++.\"   using `ja.tmac' as a template
++.\"
++.\" This file is part of groff.
++.\"
++.\" groff is free software; you can redistribute it and/or modify it under
++.\" the terms of the GNU General Public License as published by the Free
++.\" Software Foundation, either version 3 of the License, or
++.\" (at your option) any later version.
++.\"
++.\" groff is distributed in the hope that it will be useful, but WITHOUT ANY
++.\" WARRANTY; without even the implied warranty of MERCHANTABILITY or
++.\" FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
++.\" for more details.
++.\"
++.\" You should have received a copy of the GNU General Public License
++.\" along with this program. If not, see <http://www.gnu.org/licenses/>.
++.\"
++.\" Please send comments to groff@gnu.org.
++.
++.
++.\" The following rules work for both zh_CN and zh_TW.
++.
++.\" Locale string
++.
++.ds locale chinese\"
++.
++.
++.class [CJKprepunct] \
++  , : ; > } \
++  \[u2026] \[u201D] \
++  \[u3001] \[u3002] \[u3009] \[u300B] \[u300D] \[u300F] \[u3011] \
++  \[uFF01] \[uFF09] \[uFF0C] \[uFF1A] \[uFF1B] \[uFF1F]
++.class [CJKpostpunct] \
++  \[u201C] \[u3008] \[u300A] \[u300C] \[u300E] \[u3010] \[uFF08]
++.
++.\" Chinese glyphs.
++.class [CJKnormal] \
++  \[u4E00]-\[u9FFF]
++.
++.cflags 128 \C'[CJKprepunct]'
++.cflags 266 \C'[CJKpostpunct]'
++.cflags 512 \C'[CJKnormal]'

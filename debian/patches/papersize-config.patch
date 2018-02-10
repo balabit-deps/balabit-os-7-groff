@@ -1,0 +1,80 @@
+From 58ecc3fdf69bd0e18c5f1e312a5907d7b197de93 Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@debian.org>
+Date: Thu, 2 Jan 2014 13:13:21 +0000
+Subject: Use /etc/papersize in preference to configure-time selection
+
+Forwarded: not-needed
+Last-Update: 2010-03-01
+
+Patch-Name: papersize-config.patch
+---
+ font/devdvi/Makefile.sub | 4 ++--
+ font/devlbp/Makefile.sub | 4 ++--
+ font/devlj4/Makefile.sub | 4 ++--
+ font/devps/Makefile.sub  | 4 ++--
+ 4 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/font/devdvi/Makefile.sub b/font/devdvi/Makefile.sub
+index 8e1384d5..120c6daa 100644
+--- a/font/devdvi/Makefile.sub
++++ b/font/devdvi/Makefile.sub
+@@ -43,9 +43,9 @@ MOSTLYCLEANADD=DESC
+ DESC: DESC.in
+ 	cat $(srcdir)/DESC.in >DESC
+ 	if test "$(PAGE)" = A4; then \
+-	  echo "papersize a4" >>DESC; \
++	  echo "papersize /etc/papersize a4" >>DESC; \
+ 	else \
+-	  echo "papersize letter" >>DESC; \
++	  echo "papersize /etc/papersize letter" >>DESC; \
+ 	fi
+ 	test -z '$(DVIPRINT)' || echo print '$(DVIPRINT)' >>DESC
+ 
+diff --git a/font/devlbp/Makefile.sub b/font/devlbp/Makefile.sub
+index c015c8eb..4a0b53df 100644
+--- a/font/devlbp/Makefile.sub
++++ b/font/devlbp/Makefile.sub
+@@ -39,9 +39,9 @@ MOSTLYCLEANADD=DESC
+ DESC: DESC.in
+ 	cat $(srcdir)/DESC.in >DESC
+ 	if test "$(PAGE)" = A4; then \
+-	  echo "papersize a4" >>DESC; \
++	  echo "papersize /etc/papersize a4" >>DESC; \
+ 	else \
+-	  echo "papersize letter" >>DESC; \
++	  echo "papersize /etc/papersize letter" >>DESC; \
+ 	fi
+ 	test -z '$(LBPPRINT)' || echo print '$(LBPPRINT)' >>DESC
+ 
+diff --git a/font/devlj4/Makefile.sub b/font/devlj4/Makefile.sub
+index 6d499dbe..9f4d9dce 100644
+--- a/font/devlj4/Makefile.sub
++++ b/font/devlj4/Makefile.sub
+@@ -58,9 +58,9 @@ DESC: DESC.in
+ 	echo "unitwidth `expr 7620000 / $(LJ4RES)`" >>DESC
+ 	cat $(srcdir)/DESC.in >>DESC
+ 	if test "$(PAGE)" = A4; then \
+-	  echo "papersize a4" >>DESC; \
++	  echo "papersize /etc/papersize a4" >>DESC; \
+ 	else \
+-	  echo "papersize letter" >>DESC; \
++	  echo "papersize /etc/papersize letter" >>DESC; \
+ 	fi
+ 	test -z '$(LJ4PRINT)' || echo print '$(LJ4PRINT)' >>DESC
+ 
+diff --git a/font/devps/Makefile.sub b/font/devps/Makefile.sub
+index 32584867..654e3bb5 100644
+--- a/font/devps/Makefile.sub
++++ b/font/devps/Makefile.sub
+@@ -65,9 +65,9 @@ DESC: DESC.in
+ 	cat $(srcdir)/DESC.in >DESC
+ 	echo broken $(BROKEN_SPOOLER_FLAGS) >>DESC
+ 	if test "$(PAGE)" = A4; then \
+-	  echo "papersize a4" >>DESC; \
++	  echo "papersize /etc/papersize a4" >>DESC; \
+ 	else \
+-	  echo "papersize letter" >>DESC; \
++	  echo "papersize /etc/papersize letter" >>DESC; \
+ 	fi
+ 	test -z '$(PSPRINT)' ||	echo print '$(PSPRINT)' >>DESC
+ 

@@ -1,0 +1,65 @@
+From 50137624d47fa691b5a6f57019be81471a001c57 Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@debian.org>
+Date: Wed, 22 Jan 2014 09:46:26 +0000
+Subject: Remove the W3C validation icons from generated HTML
+
+As the Lintian privacy-breach-w3c-valid-html tag puts it:
+
+  "These badges may be displayed to tell readers that care has been
+  taken to make a page compliant with W3C standards.  Unfortunately,
+  downloading the image from www.w3.org might expose the reader's IP
+  address to potential tracking."
+
+Forwarded: no
+Last-Update: 2014-11-05
+
+Patch-Name: no-validation-icons.patch
+---
+ doc/Makefile.in  | 4 ++--
+ doc/Makefile.sub | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/doc/Makefile.in b/doc/Makefile.in
+index 759b4b2f..c1da5e49 100644
+--- a/doc/Makefile.in
++++ b/doc/Makefile.in
+@@ -96,7 +96,7 @@ imagedir=img
+ 
+ .ms.html:
+ 	$(GROFF) -P-p -P-b -P-I`basename $< | sed -e 's|.ms$$||'` \
+-	         -P-D$(imagedir) -P-V -Thtml -ms >$@
++	         -P-D$(imagedir) -Thtml -ms >$@
+ .ms.txt:
+ 	$(GROFF) -Tascii -ms -mwww >$@
+ .ms.ps:
+@@ -135,7 +135,7 @@ gnu.eps: gnu.xpm
+ pic.html: pic.ms
+ 	$(GROFF) -P-p -P-I`basename $< | sed -e 's|.ms$$||'` \
+ 	         -P-D$(imagedir) -P-j`basename $< | sed -e 's|.ms$$||'` \
+-	         -Thtml -P-V -ms >$@
++	         -Thtml -ms >$@
+ 
+ webpage.html: webpage.ms gnu.eps groff.css
+ 	$(GROFF) -P-j`basename $< | sed -e 's|.ms$$||'` \
+diff --git a/doc/Makefile.sub b/doc/Makefile.sub
+index b2325f93..3c9c5604 100644
+--- a/doc/Makefile.sub
++++ b/doc/Makefile.sub
+@@ -118,7 +118,7 @@ RM=rm -f
+ 
+ .ms.html:
+ 	$(GROFF) -P-p -P-b -P-I`basename $< | sed -e 's|.ms$$||'` \
+-	         -P-D$(imagedir) -P-V -Thtml -ms >$@
++	         -P-D$(imagedir) -Thtml -ms >$@
+ .ms.ps:
+ 	$(GROFF) -Tps -ms -mwww >$@
+ 
+@@ -158,7 +158,7 @@ gnu.eps: gnu.xpm
+ pic.html: pic.ms
+ 	$(GROFF) -P-p -P-I`basename $< | sed -e 's|.ms$$||'` \
+ 	         -P-D$(imagedir) -P-j`basename $< | sed -e 's|.ms$$||'` \
+-	         -Thtml -P-V -ms >$@
++	         -Thtml -ms >$@
+ 
+ webpage.html: webpage.ms gnu.eps groff.css
+ 	$(GROFF) -P-j`basename $< | sed -e 's|.ms$$||'` \

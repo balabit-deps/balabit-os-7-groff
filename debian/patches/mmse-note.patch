@@ -1,0 +1,71 @@
+From 0e6f2dd4faaf2bb5a217412b8d2d2d31a0ff51ef Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@debian.org>
+Date: Sun, 26 Jan 2014 19:34:00 +0000
+Subject: Note that groff_mmse(7) is only available in Swedish locales
+
+Bug-Debian: http://bugs.debian.org/710431
+Forwarded: no
+Last-Update: 2014-11-05
+
+Patch-Name: mmse-note.patch
+---
+ contrib/mm/groff_mm.man  | 1 +
+ contrib/mm/mmroff.man    | 3 ++-
+ man/groff_tmac.man       | 3 ++-
+ src/roff/groff/groff.man | 3 ++-
+ 4 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/contrib/mm/groff_mm.man b/contrib/mm/groff_mm.man
+index a58ce5d2..0321c2b8 100644
+--- a/contrib/mm/groff_mm.man
++++ b/contrib/mm/groff_mm.man
+@@ -3965,6 +3965,7 @@ then assigns the argument to the string variable
+ .BR @g@eqn (@MAN1EXT@)
+ .br
+ .BR groff_mmse (@MAN7EXT@)
++(only in Swedish locales)
+ .
+ .
+ .\" --------------------------------------------------------------------
+diff --git a/contrib/mm/mmroff.man b/contrib/mm/mmroff.man
+index dbd50b9d..1fc5885a 100644
+--- a/contrib/mm/mmroff.man
++++ b/contrib/mm/mmroff.man
+@@ -101,7 +101,8 @@ will only be run once.
+ .\" --------------------------------------------------------------------
+ .
+ .BR groff_mm (@MAN7EXT@),
+-.BR groff_mmse (@MAN7EXT@),
++.BR groff_mmse (@MAN7EXT@)
++(only in Swedish locales),
+ .BR groff (@MAN1EXT@),
+ .BR @g@troff (@MAN1EXT@),
+ .BR @g@tbl (@MAN1EXT@),
+diff --git a/man/groff_tmac.man b/man/groff_tmac.man
+index b85ab0c2..882e3b63 100644
+--- a/man/groff_tmac.man
++++ b/man/groff_tmac.man
+@@ -254,7 +254,8 @@ sets the input encoding to latin-9 to get proper support of the
+ Swedish localization support, including the me, mom, and ms macro packages.
+ .
+ Note that Swedish for the mm macros is handled separately; see
+-.BR groff_mmse (@MAN7EXT@).
++.BR groff_mmse (@MAN7EXT@)
++(only in Swedish locales).
+ .
+ It should be used as the last macro package on the command line.
+ .
+diff --git a/src/roff/groff/groff.man b/src/roff/groff/groff.man
+index e5a62354..1bb8c3a5 100644
+--- a/src/roff/groff/groff.man
++++ b/src/roff/groff/groff.man
+@@ -1993,7 +1993,8 @@ Groff macro packages and macro-specific utilities:
+ .BR \%groff_mdoc (@MAN7EXT@),
+ .BR \%groff_me (@MAN7EXT@),
+ .BR \%groff_mm (@MAN7EXT@),
+-.BR \%groff_mmse (@MAN7EXT@),
++.BR \%groff_mmse (@MAN7EXT@)
++(only in Swedish locales),
+ .BR \%groff_mom (@MAN7EXT@),
+ .BR \%groff_ms (@MAN7EXT@),
+ .BR \%groff_www (@MAN7EXT@),

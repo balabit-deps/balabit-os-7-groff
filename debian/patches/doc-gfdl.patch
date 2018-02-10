@@ -1,0 +1,189 @@
+From 901d2038e536b438ad869417e268b7992ad6eac1 Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@debian.org>
+Date: Thu, 2 Jan 2014 13:13:16 +0000
+Subject: Add GFDL references to manual pages licensed under GFDL
+
+Bug-Debian: http://bugs.debian.org/292229
+Forwarded: not-needed
+Last-Update: 2014-11-05
+
+Patch-Name: doc-gfdl.patch
+---
+ contrib/hdtbl/groff_hdtbl.man | 4 ++++
+ contrib/pdfmark/pdfroff.man   | 4 ++++
+ man/ditroff.man               | 4 ++++
+ man/groff.man                 | 4 ++++
+ man/groff_diff.man            | 4 ++++
+ man/groff_out.man             | 4 ++++
+ man/groff_tmac.man            | 4 ++++
+ man/roff.man                  | 4 ++++
+ src/roff/groff/groff.man      | 4 ++++
+ src/roff/troff/troff.man      | 4 ++++
+ tmac/groff_trace.man          | 4 ++++
+ 11 files changed, 44 insertions(+)
+
+diff --git a/contrib/hdtbl/groff_hdtbl.man b/contrib/hdtbl/groff_hdtbl.man
+index 74012ae3..e611b791 100644
+--- a/contrib/hdtbl/groff_hdtbl.man
++++ b/contrib/hdtbl/groff_hdtbl.man
+@@ -21,6 +21,10 @@ Front-Cover Texts, and with no Back-Cover Texts.
+ A copy of the Free Documentation License is included as a file called
+ FDL in the main directory of the groff source package.
+ ..
++.ig
++A copy of the GNU Free Documentation License is also available in this
++Debian package as /usr/share/doc/groff/copyright.
++..
+ .
+ .de au
+ This document was written by
+diff --git a/contrib/pdfmark/pdfroff.man b/contrib/pdfmark/pdfroff.man
+index ec412bba..60a75a22 100644
+--- a/contrib/pdfmark/pdfroff.man
++++ b/contrib/pdfmark/pdfroff.man
+@@ -34,6 +34,10 @@ available in the internet at
+ the GNU copyleft site
+ .UE .
+ ..
++.ig
++A copy of the GNU Free Documentation License is also available in this
++Debian package as /usr/share/doc/groff/copyright.
++..
+ .
+ .de au
+ It was originally written by
+diff --git a/man/ditroff.man b/man/ditroff.man
+index 16a6febc..ef01e044 100644
+--- a/man/ditroff.man
++++ b/man/ditroff.man
+@@ -23,6 +23,10 @@ available on-line at the
+ GNU copyleft site
+ .UE .
+ ..
++.ig
++A copy of the GNU Free Documentation License is also available in this
++Debian package as /usr/share/doc/groff/copyright.
++..
+ .de au
+ It was written by
+ .MT groff-bernd.warken-72@\:web.de
+diff --git a/man/groff.man b/man/groff.man
+index ca80f022..31b91e10 100644
+--- a/man/groff.man
++++ b/man/groff.man
+@@ -26,6 +26,10 @@ available in the internet at
+ .UR http://\:www.gnu.org/\:copyleft/\:fdl.html
+ .UE .
+ ..
++.ig
++A copy of the GNU Free Documentation License is also available in this
++Debian package as /usr/share/doc/groff/copyright.
++..
+ .
+ .de au
+ This documentation was written by
+diff --git a/man/groff_diff.man b/man/groff_diff.man
+index eacccd37..fb5f142e 100644
+--- a/man/groff_diff.man
++++ b/man/groff_diff.man
+@@ -29,6 +29,10 @@ available in the internet at
+ GNU FDL license
+ .UE .
+ ..
++.ig
++A copy of the GNU Free Documentation License is also available in this
++Debian package as /usr/share/doc/groff/copyright.
++..
+ .
+ .de au
+ This document was written by
+diff --git a/man/groff_out.man b/man/groff_out.man
+index f9ef631e..ce136150 100644
+--- a/man/groff_out.man
++++ b/man/groff_out.man
+@@ -32,6 +32,10 @@ available in the internet at
+ GNU FDL license
+ .UE .
+ ..
++.ig
++A copy of the GNU Free Documentation License is also available in this
++Debian package as /usr/share/doc/groff/copyright.
++..
+ .
+ .de au
+ In 2001, this document was rewritten from scrach by
+diff --git a/man/groff_tmac.man b/man/groff_tmac.man
+index 5017dcb0..b85ab0c2 100644
+--- a/man/groff_tmac.man
++++ b/man/groff_tmac.man
+@@ -28,6 +28,10 @@ available on\-line at the
+ GNU copyleft site
+ .UE .
+ ..
++.ig
++A copy of the GNU Free Documentation License is also available in this
++Debian package as /usr/share/doc/groff/copyright.
++..
+ .
+ .de au
+ This file was written by
+diff --git a/man/roff.man b/man/roff.man
+index 6ce18e7c..b970f5b4 100644
+--- a/man/roff.man
++++ b/man/roff.man
+@@ -26,6 +26,10 @@ The license text is also available on-line at the
+ GNU copyleft site
+ .UE .
+ ..
++.ig
++A copy of the GNU Free Documentation License is also available in this
++Debian package as /usr/share/doc/groff/copyright.
++..
+ .
+ .de au
+ This man-page was written by
+diff --git a/src/roff/groff/groff.man b/src/roff/groff/groff.man
+index e30d1b5d..e5a62354 100644
+--- a/src/roff/groff/groff.man
++++ b/src/roff/groff/groff.man
+@@ -31,6 +31,10 @@ It is also available in the internet at the
+ GNU copyleft site
+ .UE .
+ ..
++.ig
++A copy of the GNU Free Documentation License is also available in this
++Debian package as /usr/share/doc/groff-base/copyright.
++..
+ .
+ .\" Authors
+ .de au
+diff --git a/src/roff/troff/troff.man b/src/roff/troff/troff.man
+index 684f4413..07fdff1f 100644
+--- a/src/roff/troff/troff.man
++++ b/src/roff/troff/troff.man
+@@ -25,6 +25,10 @@ Front-Cover Texts, and with no Back-Cover Texts.
+ A copy of the Free Documentation License is included as a file called
+ FDL in the main directory of the groff source package.
+ ..
++.ig
++A copy of the GNU Free Documentation License is also available in this
++Debian package as /usr/share/doc/groff-base/copyright.
++..
+ .
+ .de au
+ This file was originally written by James Clark, it was modified by
+diff --git a/tmac/groff_trace.man b/tmac/groff_trace.man
+index 7b04373b..67990dbb 100644
+--- a/tmac/groff_trace.man
++++ b/tmac/groff_trace.man
+@@ -24,6 +24,10 @@ Front-Cover Texts, and with no Back-Cover Texts.
+ A copy of the Free Documentation License is included as a file called
+ FDL in the main directory of the groff source package.
+ ..
++.ig
++A copy of the GNU Free Documentation License is also available in this
++Debian package as /usr/share/doc/groff/copyright.
++..
+ .
+ .de au
+ Written by
